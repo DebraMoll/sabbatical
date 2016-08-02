@@ -8,6 +8,10 @@
 
 <script>
 
+    //TODO
+    //Add validation testing
+    //Allow numbers generated to be real numbers and negatives
+    //Sort strings
 
     //merge_sort - given an array sort it using the merge sort algorithm
     //A - array to be sorted
@@ -43,29 +47,35 @@
         return ret;
     }
 
-    var input = [4,9,8,7,12,1,4,5];
+    //var input = [4,9,8,7,12,1,4,5];
+    //var input = [4,9,8,7,12,1,4,5,105,101];
+    //var input = [4,9,8,7,12,1,4,5,23,3,15,11,19,21,111,105,101];
     //var input = [8,2,2,3];
+    var input = randomArray(101, 2000, true);
+    console.log(`our array: ${input}`);
     console.log(merge_sort(input));
 
     function merge_sort(A, sz=1) {
         if(sz < A.length) {
+            //initialize working variables
             var temp = [];
             var ret = [];
             var A1 = [];
             var A2 = [];
-            for (let i = 0; i < A.length/sz; i+=sz) {
+            //loop A.length/(sz*2) times to create partial arrays
+            //this will create 2 arrays of length sz created from the input array A.
+            //It then merges them into one and then recurses on merge_sort for the next group of sz*2
+            for (let i = 0; i < A.length/(sz*2); i+=1) {
+                A1, A2 = [];
                 for (let j = 0; j < sz; j += 1) {
-                    console.log(`building A1 and A2, i is ${i} and j is ${j} indices for retrieval fromm A are ${(i*sz*2)+j} and ${(i*sz*2)+j+sz}`);
                     A1[j] = A[(i * sz * 2) + j];
-                    A2[j] = A[(i * sz * 2) + j + sz];
+                    if(A[(i * sz * 2) + j + sz] != undefined) {
+                        A2[j] = A[(i * sz * 2) + j + sz];
+                    }
                 }
-                console.log(`A1 is ${A1} and A2 is ${A2} and are they arrays? ${Array.isArray(A1)} and ${Array.isArray(A2)}`);
                 temp = merge(A1, A2);
-                console.log(`Merged array: ${temp} but is this an array? ${Array.isArray(temp)}`);
-                console.log(`what is my value of i? ${i}`);
                 for (let k = 0; k < temp.length; k += 1) {
-                    ret[(i * 2) + k] = temp[k];
-                    console.log(`current version of returned array is: ${ret}`);
+                    ret[(i * sz * 2) + k] = temp[k];
                 }
             }
             return merge_sort(ret, sz * 2);
@@ -118,6 +128,12 @@
             }
         }
         return A3;
+    }
+
+    function randomArray(length, max) {
+        return Array.apply(null, Array(length)).map(function(_, i) {
+            return Math.round(Math.random() * max);
+        });
     }
 
 </script>
