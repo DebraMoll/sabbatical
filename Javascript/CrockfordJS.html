@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+
+<script type="application/javascript">
+
+    //immediately invoked function
+    (function() {
+        console.log("immediately invoked function. If you see this then I was run");
+    })();
+
+    //always use ===
+    //ES5 do not use line continuation    x = "flah blah " /
+
+    //Objects and Prototypes
+    //Prototypes - create one object from another
+    //creates on a prototype stay with the prototype but read properties can go down the chain of inheritance (objects on which
+    //the protype was built
+
+    var mother = {
+        a: 1,
+        b: 2
+    };
+
+    var daughter = Object.create(mother);
+
+    daughter.b += 2;
+    daughter.c = 9;
+
+    console.log("mother a: " + mother.a + ", b: " + mother.b);
+    console.log("daughter a: " + daughter.a + ", b: " + daughter.b + ", c: " + daughter.c);
+
+    //javascript only has one number type - 64-bit binary floating point. This can cause problems
+    //watch "Numbers" video for good terminology and understanding of terms that you have heard before but did not understand
+
+    a = 0.10;
+    b = 0.20;
+    c = 0.30;
+
+    // a + b === c will return false due the floating point
+    console.log("a = " + a + ", b = " + b + ", c = " + c + ", a + b = " + (a + b) + ", so, how about a + b === c " + (a + b === c)); //note that this is false
+
+    //Arrays - by definition, a collection of elements with the same size occupying a contiguous memory
+    //JS did not provide this in beginning. When created, decided that it would inherit from object as a 
+    //collection. Con: not efficient. Pro: do not have to declare the size of the array (as you do in C#
+    //since it needs to know how much contiguous memory that you will need). Indexes are converted to strings
+    //upon retrieval. 
+    //An array is really a hash table
+    //look at array.prototype() for its methods, which are more extensive than for an object
+    //note: the elements of an array are strings. so arr.sort() will perform an alpha sort, first converting
+    //each element to an alpha
+
+    //null and undefined - only values in js that are not objects
+    //js's default is undefined, so use this. 
+    //example: an uninitialized variable's value will be undefined
+
+    //regex - for checking execution of expression: http://jex.im/regulex
+
+    //***********************************************
+    //RECURSION
+    // http://javascript.crockford.com/little.html
+    
+    //***********************************************
+    // Tennent's Principle of Correspondence
+
+    //Examples
+    //Tenent's Principle - any expression or statement can be wrapped in an immediately invocable function
+    //without changing meaning
+    function factorial(n) {
+        var result = 1;
+        while(n > 1) {
+            result *= n;
+            n -= 1;
+        }
+        return result;
+    } 
+
+    function factorial(n) {
+        return (function(result) {
+            while(n > 1) {
+                result *= n;
+                n -= 1;
+            }
+            return result;
+        } (1));
+    }
+
+    //***********************************************
+    //CLOSURE
+    //-the context of an inner function includes the scope of the outer function
+    //-the inner function enjoys that context even after the parent functions have returned
+
+    //-function scope works like block scope (js does not have block scope but it has function scope)
+
+    //BAD
+    //Names is a global variables. imagine a page on which ads are displayed and an add uses the variable 'names'
+    var names = ['Earth', 'Moon', 'Mars'];
+    var get_name = function(x) {
+        return names[x];
+    }
+    alert(get_name(1));
+
+    //BETTER BUT STILL BAD
+    //Put the declaration of names inside the function so that it is not global
+    //however, everytime the function is called the array is recreated in memory
+    var get_name = function(x) {
+        var names = ['Earth', 'Moon', 'Mars'];
+        return names[x];
+        
+    }
+
+    //BEST - Use Closure
+    //notice - the parameter x is in the enclosed function which is the return of get_name
+    //notice that the whole thing is called immediates which creates the global variable get_name which
+    //will return the specified index of the names variable
+    //Watch "closure  examples" video again. Great question aft 6:40 about how the names gets stored only once
+    //second example after this on the fade function is excellent. 
+    var get_name = (function() {
+        var names = ['Earth', 'Moon', 'Mars', 'SUN', 'Saturn', 'Jupiter'];
+        
+        return function(x){
+            return names[x]
+        }
+        
+    } () );
+
+   alert("calling closure based get name function: " + get_name(4));
+
+
+</script>
+</html>

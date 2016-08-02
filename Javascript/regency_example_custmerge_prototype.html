@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <script src="js_tablebuilder.js"></script>
+
+    <input type="button" onClick="javascript:next_step();" value="Next >>" style="font-size:12pt;background-color:lightblue;"/>
+    <br/>
+    <textarea id="state" cols="100" rows="1" style="font-size:12pt;background-color:lightblue;">Initial State - select customers and retrieve data (click 'next' for simulation)
+    </textarea>
+    <br/>
+    <H2>Merge Customers</H2>
+    <div id="select_customers" style="font-size:12pt;"">
+        <H3><u>Select Customers</u></H3>
+        <input type="text" size="50" value="100011,100238,100048" style="font-size:12pt;"/>
+        <input type="button" value="Get Customers" style="font-size:12pt;background-color:lightcyan;"/>
+    </div>
+    <div id="table1"></div>
+    <div id="table2"></div>    
+
+</body>
+
+<script type="application/javascript">
+    var step = 0;
+
+    data =
+        [
+            {"customer_id": "", 
+                "name": "",
+                "csr": "",
+                "salesrep": "",
+                "invoice_batch": "",
+                "credit_limit": ""},
+
+            {"customer_id": "100011", 
+                "name": "Everyday Bargains",
+                "csr": "JJJ",
+                "salesrep": "4932",
+                "invoice_batch": "13",
+                "credit_limit": "10,000"},
+
+            {"customer_id": "100238", 
+                "name": "Everyday Daily Bargains",
+                "csr": "LLL",
+                "salesrep": "4932",
+                "invoice_batch": "7",
+                "credit_limit": "5,000"},
+            {"customer_id": "100048", 
+                "name": "Everyday bargains",
+                "csr": "JJJ",
+                "salesrep": "4932",
+                "invoice_batch": "13",
+                "credit_limit": "12,000"}
+
+        ]
+
+    data_merged =
+        [
+            {"customer_id": "", 
+                "name": "",
+                "csr": "",
+                "salesrep": "",
+                "invoice_batch": "",
+                "credit_limit": ""},
+
+            {"customer_id": "100011", 
+                "name": "Everyday Bargains",
+                "csr": "LLL",
+                "salesrep": "4932",
+                "invoice_batch": "13",
+                "credit_limit": "12,000"}
+
+        ]
+    
+    //initial state
+    if(step === 0) {
+        document.getElementById("select_customers").style.visibility = "visible";
+        document.getElementById("table1").style.visibility = "hidden";
+        document.getElementById("table2").style.visibility = "hidden";
+    }
+
+
+    //build tables from data
+    document.getElementById("table1").innerHTML = "";
+    document.getElementById("table1").appendChild(buildTableFromCollection(data, "customer_data"));
+    document.getElementById("table2").appendChild(buildTableFromCollection(data_merged, "customer_mergeddata"));
+
+
+    //set background color of cells simulating selection
+    var cust_table = document.getElementById("customer_data");
+    cust_table.rows[2].cells[0].style.backgroundColor = "yellow";     
+    cust_table.rows[2].cells[1].style.backgroundColor = "yellow";     
+    cust_table.rows[3].cells[2].style.backgroundColor = "yellow";     
+    cust_table.rows[2].cells[3].style.backgroundColor = "yellow";     
+    cust_table.rows[2].cells[4].style.backgroundColor = "yellow";     
+    cust_table.rows[4].cells[5].style.backgroundColor = "yellow";     
+       // for (var i = 0, row; row = table.rows[i]; i++) {
+       // //iterate through rows
+       // //rows would be accessed using the "row" variable assigned in the for loop
+       //     for (var j = 0, col; col = row.cells[j]; j++) {
+       //       if(i===0 && j==0) {
+
+       //       }
+       //       //iterate through columns
+       //       //columns would be accessed using the "col" variable assigned in the for loop
+       //     }  
+    //}
+
+    function next_step(){
+        console.log("in next_step, step # " + step);
+        if(step === 0) {
+            document.getElementById("select_customers").style.visibility= "hidden";
+            document.getElementById("table1").style.visibility = "visible";
+            document.getElementById("table2").style.visibility = "hidden";
+ 
+            document.getElementById("select_customers").style.height= "0px";
+
+            document.getElementById("state").value = "Customer data is retrieved and user selects which values to keep. (Click 'Next' to Simulate the merge)";
+        }
+        else if(step === 1) {
+            document.getElementById("select_customers").style.visibility = "hidden";
+            document.getElementById("table1").style.visibility = "hidden";
+            document.getElementById("table2").style.visibility = "visible";
+
+            document.getElementById("table1").style.height = "0px";
+
+            document.getElementById("state").value = "User merges data leaving the selected customer id as the active customer.";
+        }
+        step += 1;
+
+    }
+
+</script>
+</html>

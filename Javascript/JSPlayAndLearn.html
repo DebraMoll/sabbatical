@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="content"></div>
+    <div id="edit_content"></div>
+</body>
+
+<script type="application/javascript">
+
+    //******************************************************************************************************
+    //EXAMPLE - count down from 6 to 1
+    countDownIterative = function(x) {
+        for(i = x; i > 0; i += -1){
+            console.log(i);
+        }
+    }
+    console.log("Iterative form of countDown");
+    countDownIterative(6);
+
+ 
+    //recursive count down
+    countDownRecursive = function(x) {
+        if(x > 0) {
+            console.log(x);
+            return(countDownRecursive(x - 1));
+        }
+        else {
+            return x;
+        }
+    }
+    console.log("Recursive form of countDown");
+    countDownRecursive(6);
+    //******************************************************************************************************
+
+    //******************************************************************************************************
+    //EXAMPLE - sum numbers from 1 to 6
+    sumIterative = function(x) {
+        var accum = 0;
+        for(i = 1; i <= x; i +=  1){
+            accum = accum + i;
+        }
+        return accum;
+    }
+    console.log("Iterative Sum:");
+    console.log(sumIterative(6));
+
+    //recursive sum
+    sumRecursive = function(end, accum) {
+        if(end >= 0)
+            return sumRecursive(end - 1, accum + end);
+        else
+            return accum;
+    }
+    console.log("Recursive Sum:");
+    console.log(sumRecursive(6, 0));
+    //******************************************************************************************************
+
+    //******************************************************************************************************
+    //Example - working with one dimensional arrays
+    var arr1 = [4, 9, 1, 3, 6];
+    sumArrayIterative = function(arr) {
+        var accum = 0;
+        for(i = 0; i < arr.length; i += 1) {
+            accum += arr[i];
+        }
+        return accum;
+    }
+    console.log("Iterative sum of array:");
+    console.log(sumArrayIterative(arr1));
+
+    //use reduce. see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/Reduce
+    //arr.reduce(previousValue, currentValue, currentIndex, array)
+    sumArrayReduce = function(arr) {
+        return arr.reduce( function(x, y) { return x + y } );
+    }
+    console.log("sumArray using reduce");
+    console.log(sumArrayReduce(arr1));
+
+    //do the same as above but using arrow function notation
+    sumArrayReduce2 = function(arr) {
+        return arr.reduce( (x, y) => x + y );
+    }
+    console.log("using Arrow Notation")
+    console.log(sumArrayReduce2(arr1));
+
+    //reduce supplying an initial value (i.e. currentValue=10 before the function begins)
+    console.log("use Array.prototype.reduce to sum an array with an initial value");
+    console.log(
+    [0, 1, 2, 3, 4].reduce(function(previousValue, currentValue, currentIndex, array) {
+        return previousValue + currentValue;
+    }, 10)
+    )
+    //******************************************************************************************************
+
+    //how expensive is a fibonacci recursion??
+    //if is expensive would a loop be better??
+    let wr = (msg = '-----------') => document.write(`<br>${msg}`);
+    var l = 0;
+    function fibonacci(n) {
+        l += 1;
+        //wr(`val of l = ${l}`);
+        if(n <= 2) {
+            return 1;
+        }
+        else {
+            return fibonacci(n-1) + fibonacci(n-2);
+        }
+    }
+    wr(`val of fiboanacci(20) is ${fibonacci(20)}`);
+    wr(`val of l, # of loops to find fibonnacci # is ${l}`);
+
+    //so now, write this in a loop
+    l = 0;
+    function fibonacci_loop(n) {
+        xsum = 0;
+        xcurr = 0;
+        xprev = 0;
+        for(x = 1; x < n; x+=1){
+            l += 1;
+            xprev = xcurr;
+            if(x <=  2){
+                xcurr = 1;
+            }
+            else {
+                xcurr = xsum;
+            }
+            xsum = xprev + xcurr;
+        }
+        return xsum;
+    }
+    wr(`val of fiboanacci_loop(20) is ${fibonacci_loop(20)}`);
+    wr(`val of l, # of loops to find fibonnacci_loop # is ${l}`);
+
+
+    //******************************************************************************************************
+    //Example - Arrays and the map function
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map
+    //map works on every element in an array
+    var numbers = [1, 4, 9];
+    var roots = numbers.map(Math.sqrt);
+    console.log("numbers: " + numbers);
+    console.log("roots using map: " + roots);
+
+    //use map to find children with a give parent value
+    data =
+    [
+        {"id": 1, "name": "LV USA", "parent":1},
+
+        {"id": 12, "name": "Cartier", "parent":1},
+        {"id": 13, "name": "Botega", "parent":1},
+
+        {"id": 112, "name": "Cartier London", "parent":12},
+        {"id": 113, "name": "Cartier New Your", "parent":12},
+        {"id": 114, "name": "Cartier Beverly Hills", "parent":12},
+
+        {"id": 122, "name": "Botega London", "parent":13},
+        {"id": 123, "name": "Botega New Your", "parent":13},
+        {"id": 124, "name": "Botega Beverly Hills", "parent":13},
+    ]
+
+    //seems that this should give us the children 112, 113, 114, but it does not. check results
+    var children = data.map( function(element) {
+        if(element["parent"] == 12) return element;
+    })
+    console.log("who are Cartier's children?");
+    console.log(children);
+    //note that the result of this is:
+    //[undefined, undefined, undefined, Object, Object, Object, undefined, undefined, undefined]
+    //it properly gives us the objects that we want but maps the non-matches into undefined.
+    //it appears that map is not the function that we want to find children of an array
+    //Lets try 'filter': https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+
+    //******************************************************************************************************
+
+
+    //******************************************************************************************************
+    //Example - Arrays - Using Filter to subset a collection
+    //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter
+    var accum = [];
+    data.filter(function(element) {
+        if (element["parent"] == 12 && element["id"] != element["parent"]) {
+                accum.push(element);
+        }
+    });
+    console.log(accum);
+
+    //Can we write a function and pass in the parent value???
+    //NOTE: the use of "this" in this.parent_value. when calling Array.filter it takes two arguments:
+    //Array.filter(function, params) where:
+    //function is the name of the function that will provide the filter functionality, and
+    //params is an array of key value pairs that can be used with the this keyword inside the function
+    function findChildren(arr) {
+        if (arr["parent"] == this.parent_value && arr["id"] != arr["parent"]) {
+            return arr;
+        }
+    }
+    var params = {parent_value: 12}
+    console.log(data.filter(findChildren, params));
+    params["parent_value"] = 13;
+    console.log(data.filter(findChildren, params));
+
+
+</script>
+</html>

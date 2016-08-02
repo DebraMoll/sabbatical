@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<script>
+
+
+    //merge_sort - given an array sort it using the merge sort algorithm
+    //A - array to be sorted
+    //p - the first indice in A to consider
+    //q - the midway point
+    //r - the last indice to consider
+    //Alogorithms book - recursive function for merge_sort
+//    function merge_sort(A, p, q, r) {
+//        if(p < r) {
+//            var q = (p + r)/2;
+//            merge_sort(A, p, q);
+//            merge_sort(A, q+1, r);
+//            merge(A,p,q,r);
+//        }
+//    }
+
+    function merge_sort_pairs(A) {
+        var temp = [];
+        var ret = [];
+        var A1 = [];
+        var A2 = [];
+        for(let i = 0; i < A.length; i += 2) {
+            A1[0] = A[i];
+            A2[0] = A[i + 1];
+            console.log(`A1 is ${A1} and A2 is ${A2} and are they arrays? ${Array.isArray(A1)} and ${Array.isArray(A2)}`);
+            temp = merge(A1, A2);
+            console.log(`Merged array: ${temp} but is this an array? ${Array.isArray(temp)}`);
+            console.log(`what is my value of i? ${i}`);
+            ret[i] = temp[0];
+            ret[i + 1] = temp[1];
+            console.log(`current version of returned array is: ${ret}`);
+        }
+        return ret;
+    }
+
+    var input = [4,9,8,7,12,1,4,5];
+    //var input = [8,2,2,3];
+    console.log(merge_sort(input));
+
+    function merge_sort(A, sz=1) {
+        if(sz < A.length) {
+            var temp = [];
+            var ret = [];
+            var A1 = [];
+            var A2 = [];
+            for (let i = 0; i < A.length/sz; i+=sz) {
+                for (let j = 0; j < sz; j += 1) {
+                    console.log(`building A1 and A2, i is ${i} and j is ${j} indices for retrieval fromm A are ${(i*sz*2)+j} and ${(i*sz*2)+j+sz}`);
+                    A1[j] = A[(i * sz * 2) + j];
+                    A2[j] = A[(i * sz * 2) + j + sz];
+                }
+                console.log(`A1 is ${A1} and A2 is ${A2} and are they arrays? ${Array.isArray(A1)} and ${Array.isArray(A2)}`);
+                temp = merge(A1, A2);
+                console.log(`Merged array: ${temp} but is this an array? ${Array.isArray(temp)}`);
+                console.log(`what is my value of i? ${i}`);
+                for (let k = 0; k < temp.length; k += 1) {
+                    ret[(i * 2) + k] = temp[k];
+                    console.log(`current version of returned array is: ${ret}`);
+                }
+            }
+            return merge_sort(ret, sz * 2);
+        }
+        return A;
+    }
+
+
+    //create two sorted arrays which can be sent to merge
+//    var arr1 = [4, 7, 8, 9, 13, 14];
+//    var arr2 = [1, 4, 5, 12, 15];
+//    console.log(merge(arr1, arr2));
+
+//    var A1 = [4];
+//    var A2 = [1];
+//    console.log(merge(A1,A2));
+
+    //given two sorted arrays, created a third array that sorts elements of A and B into one array
+    function merge(A1, A2) {
+        var A3 = []; //return array
+        var k = 0; //index for building A3
+        var j1 = 0; //index for A2. keep track of where we are with A2
+        for (let i = 0; i < A1.length; i += 1) {
+            if (A1[i] <= A2[j1]) {
+                A3[k] = A1[i];
+                k += 1;
+            }
+            else {
+                //loop through A2 while the values are less than A1
+                for (let j2 = j1; j2 < A2.length; j2 += 1) {
+                    if (A2[j2] < A1[i]) {
+                        A3[k] = A2[j1];
+                        j1 += 1;
+                        k += 1;
+                    }
+                    else {
+                         break;
+                    }
+                }
+                //All values less than A1[i] in A2 have been added so now you can add the curr value from A1
+                A3[k] = A1[i];
+                k += 1;
+            }
+        }
+        //Check the A2 array for any leftover elements that are greater than the last element in A1
+        if(j1 < A2.length) {
+            for(let j2 = j1; j2 < A2.length; j2 += 1){
+                A3[k] = A2[j2];
+                k+=1;
+            }
+        }
+        return A3;
+    }
+
+</script>
+
+</body>
+</html>

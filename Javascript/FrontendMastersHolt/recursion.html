@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+
+<script type="application/javascript">
+//******************************************************************************************************
+
+    //how expensive is a fibonacci recursion??
+    //if is expensive would a loop be better??
+    let wr = (msg = '-----------') => document.write(`<br>${msg}`);
+    var l = 0;
+    function fibonacci(n) {
+        l += 1;
+        //wr(`val of l = ${l}`);
+        if(n <= 2) {
+            return 1;
+        }
+        else {
+            return fibonacci(n-1) + fibonacci(n-2);
+        }
+    }
+    wr(`val of fiboanacci(20) is ${fibonacci(20)}`);
+    wr(`val of l, # of loops to find fibonnacci # is ${l}`);
+
+    //so now, write this in a loop
+    l = 0;
+    function fibonacci_loop(n) {
+        xsum = 0;
+        xcurr = 0;
+        xprev = 0;
+        for(x = 1; x < n; x+=1){
+            l += 1;
+            xprev = xcurr;
+            if(x <=  2){
+                xcurr = 1;
+            }
+            else {
+                xcurr = xsum;
+            }
+            xsum = xprev + xcurr;
+        }
+        return xsum;
+    }
+    wr(`val of fiboanacci_loop(20) is ${fibonacci_loop(20)}`);
+    wr(`val of l, # of loops to find fibonnacci_loop # is ${l}`);
+
+//******************************************************************************************************
+
+//factorial
+function factorial(n, curr = 1) {
+    if(n <= 1) {
+        return curr;
+    }
+    else {
+        return factorial(n-1, curr * n);
+    }
+}
+wr(`val of 5 factorial is: ${factorial(5)}`);
+wr(`val of 12 factorial is: ${factorial(12)}`);
+
+//Brian Holt's factorial method
+function factorial_holt(n) {
+    if(n < 1) return 1;
+    return n * factorial(n-1);
+}
+
+
+//******************************************************************************************************
+
+</script>
+
+</html>
