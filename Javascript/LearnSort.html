@@ -9,7 +9,6 @@
 <script>
 
     //TODO
-    //Add validation testing
     //Allow numbers generated to be real numbers and negatives
     //Sort strings
 
@@ -28,32 +27,11 @@
 //        }
 //    }
 
-    function merge_sort_pairs(A) {
-        var temp = [];
-        var ret = [];
-        var A1 = [];
-        var A2 = [];
-        for(let i = 0; i < A.length; i += 2) {
-            A1[0] = A[i];
-            A2[0] = A[i + 1];
-            console.log(`A1 is ${A1} and A2 is ${A2} and are they arrays? ${Array.isArray(A1)} and ${Array.isArray(A2)}`);
-            temp = merge(A1, A2);
-            console.log(`Merged array: ${temp} but is this an array? ${Array.isArray(temp)}`);
-            console.log(`what is my value of i? ${i}`);
-            ret[i] = temp[0];
-            ret[i + 1] = temp[1];
-            console.log(`current version of returned array is: ${ret}`);
-        }
-        return ret;
-    }
-
-    //var input = [4,9,8,7,12,1,4,5];
-    //var input = [4,9,8,7,12,1,4,5,105,101];
-    //var input = [4,9,8,7,12,1,4,5,23,3,15,11,19,21,111,105,101];
-    //var input = [8,2,2,3];
-    var input = randomArray(101, 2000, true);
+    var input = randomArray(10000, 2000, true);
     console.log(`our array: ${input}`);
-    console.log(merge_sort(input));
+    sortedInput = merge_sort(input);
+    console.log(sortedInput);
+    console.log(`is our array sorted? ${validateSortedArray(sortedInput)}`);
 
     function merge_sort(A, sz=1) {
         if(sz < A.length) {
@@ -82,16 +60,6 @@
         }
         return A;
     }
-
-
-    //create two sorted arrays which can be sent to merge
-//    var arr1 = [4, 7, 8, 9, 13, 14];
-//    var arr2 = [1, 4, 5, 12, 15];
-//    console.log(merge(arr1, arr2));
-
-//    var A1 = [4];
-//    var A2 = [1];
-//    console.log(merge(A1,A2));
 
     //given two sorted arrays, created a third array that sorts elements of A and B into one array
     function merge(A1, A2) {
@@ -135,6 +103,20 @@
             return Math.round(Math.random() * max);
         });
     }
+    //    ES6:
+    //    randomArray = (length, max) => [...new Array(length)]
+    //            .map((_, i) => Math.round(Math.random() * max));
+
+    function validateSortedArray(A) {
+        for(i = 0; i < A.length - 1; i+=1){
+            if(A[i] > A[i+1]) {
+                console.log(`what is i? ${i} and A[i]? ${A[i]} and A[i+1]? ${A[i+1]}`);
+                return false;
+            }
+        }
+        return true;
+    }
+
 
 </script>
 

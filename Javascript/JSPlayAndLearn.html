@@ -148,25 +148,25 @@
     //use map to find children with a give parent value
     data =
     [
-        {"id": 1, "name": "LV USA", "parent":1},
+        {"id": 1, "name": "Grandpa Joe", "parent":1},
 
-        {"id": 12, "name": "Cartier", "parent":1},
-        {"id": 13, "name": "Botega", "parent":1},
+        {"id": 12, "name": "Sally", "parent":1},
+        {"id": 13, "name": "Simone", "parent":1},
 
-        {"id": 112, "name": "Cartier London", "parent":12},
-        {"id": 113, "name": "Cartier New Your", "parent":12},
-        {"id": 114, "name": "Cartier Beverly Hills", "parent":12},
+        {"id": 112, "name": "Frederick (Sally)", "parent":12},
+        {"id": 113, "name": "Piere (Sally)", "parent":12},
+        {"id": 114, "name": "Lis Sally (Sally)", "parent":12},
 
-        {"id": 122, "name": "Botega London", "parent":13},
-        {"id": 123, "name": "Botega New Your", "parent":13},
-        {"id": 124, "name": "Botega Beverly Hills", "parent":13},
+        {"id": 122, "name": "Theresa (Simone)", "parent":13},
+        {"id": 123, "name": "Edward (Simone)", "parent":13},
+        {"id": 124, "name": "Diana (Simone)", "parent":13},
     ]
 
     //seems that this should give us the children 112, 113, 114, but it does not. check results
     var children = data.map( function(element) {
         if(element["parent"] == 12) return element;
     })
-    console.log("who are Cartier's children?");
+    console.log("who are Sallys's children?");
     console.log(children);
     //note that the result of this is:
     //[undefined, undefined, undefined, Object, Object, Object, undefined, undefined, undefined]
